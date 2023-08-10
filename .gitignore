@@ -1,0 +1,8 @@
+/output
+/rvc
+
+*.wav
+
+hubert_base.pt
+rmvpe.pt
+rvc.yaml
