@@ -26,7 +26,7 @@ class Config:
         self.gpu_name = None
         self.gpu_mem = None
         self.x_pad, self.x_query, self.x_center, self.x_max = self.device_config()
-
+        
     def device_config(self) -> tuple:
         if torch.cuda.is_available():
             i_device = int(self.device.split(":")[-1])
@@ -118,9 +118,13 @@ def create_directory(name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
-def load_hubert():
+def load_hubert(file_path="hubert_base.pt"):
+    '''
+    Args:
+        file_fath (str) : Direct path location to the hubert_base.  If not specified, defaults to top level directory.
+    '''
     global hubert_model
-    file_path = "hubert_base.pt"
+    file_path = file_path
     models, _, _ = checkpoint_utils.load_model_ensemble_and_task(
         [file_path],
         suffix="",
@@ -239,36 +243,70 @@ def load_config():
 
     return rvc_conf
 
-def rvc_run(input_path=None, output_dir=None):
+def rvc_convert(model_path,
+            f0_up_key=0,
+            input_path=None, 
+            output_dir_path="output",
+            _is_half="False",
+            f0method="rmvpe",
+            file_index="",
+            file_index2="",
+            index_rate=1,
+            filter_radius=3,
+            resample_sr=0,
+            rms_mix_rate=1.0,
+            protect=0.33
+          ):  
     '''
-    Function to call for the rvc voice conversion.  First, set-up appropriate settings inside
-    of the rvc.yaml
+    Function to call for the rvc voice conversion.
 
+    model_path (str) : path to the rvc voice model you're using
+    f0_up_key (int) : transpose of the audio file, changes pitch (positive makes voice higher pitch)
     input_path (str) : path to audio file (use wav file)
-    output_dir (str) : path to output directory, default name of wav file is "out.wav"
+    output_dir (str) : path to output directory, defaults to parent directory in output folder
+    _is_half (str) : Determines half-precision
+    f0method (str) : picks which f0 method to use: dio, harvest, crepe, rmvpe (requires rmvpe.pt)
+    file_index (str) : path to file_index, defaults to None
+    file_index2 (str) : path to file_index2, defaults to None.  #honestly don't know what this is for
+    index_rate (int) : strength of the index file if provided
+    filter_radius (int) :
+    resample_sr (int) : quality at which to resample audio to, defaults to no resample
+    rmx_mix_rate (int) : 
+    protect (int) : 
 
     '''
     global config, now_dir, hubert_model, tgt_sr, net_g, vc, cpt, device, is_half, version
+    
+    if torch.cuda.is_available():
+        device = "cuda:0"
+    else:
+        print("Cuda not detected")
+
+    is_half = _is_half
+
+    create_directory(output_dir_path)
+    output_dir = get_path(output_dir_path)
+    
+
+    # settings = load_config()
+
+    # f0_up_key = settings["transpose"]
+    # input_path = settings["audio_file"]
+    # # output_dir = settings["output_dir"]
+    # model_path = get_path(settings["model_path"])
+    # device = settings["device"]
+    # is_half = settings["is_half"]
+    # f0method = settings["f0method"]
+    # file_index = settings["file_index"]
+    # file_index2 = settings["file_index2"]
+    # index_rate = settings["index_rate"]
+    # filter_radius = settings["filter_radius"]
+    # resample_sr = settings["resample_sr"]
+    # rms_mix_rate = settings["rms_mix_rate"]
+    # protect = settings["protect"]
+    # print(settings)
+
     output_file_name = "out.wav"
-
-    settings = load_config()
-
-    f0_up_key = settings["transpose"]
-    input_path = settings["audio_file"]
-    # output_dir = settings["output_dir"]
-    model_path = get_path(settings["model_path"])
-    device = settings["device"]
-    is_half = settings["is_half"]
-    f0method = settings["f0method"]
-    file_index = settings["file_index"]
-    file_index2 = settings["file_index2"]
-    index_rate = settings["index_rate"]
-    filter_radius = settings["filter_radius"]
-    resample_sr = settings["resample_sr"]
-    rms_mix_rate = settings["rms_mix_rate"]
-    protect = settings["protect"]
-    print(settings)
-
     output_file_path = os.path.join(output_dir,output_file_name)
 
     if(is_half.lower() == 'true'):
@@ -287,13 +325,9 @@ def rvc_run(input_path=None, output_dir=None):
     wavfile.write(output_file_path, tgt_sr, wav_opt)
     print(f"\nFile finished writing to: {output_file_path}")
 
-output_dir_name = "output"
-create_directory(output_dir_name)
-output_dir = get_path(output_dir_name)
-
 def main():
     # Need to comment out yaml setting for input audio
-    rvc_run(output_dir=output_dir)
+    rvc_convert(model_path="models\\ado.pth", input_path="delilah.wav")
 
 if __name__ == "__main__":
     main()

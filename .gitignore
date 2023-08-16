@@ -1,5 +1,7 @@
 /output
 /rvc
+/venv
+/.venv
 
 *.wav
 
