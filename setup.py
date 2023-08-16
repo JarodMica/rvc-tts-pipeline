@@ -10,7 +10,4 @@ setup(
     description='tts-pipeline',
     author='Jarod Mica',
     packages=find_packages(),
-    install_requires=[
-        'rvc @ git+https://github.com/JarodMica/rvc.git#egg=rvc',
-    ],
 )
