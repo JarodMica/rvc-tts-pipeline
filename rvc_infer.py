@@ -98,17 +98,16 @@ class Config:
 
 def get_path(name):
     '''
-    Built to get the path of a file based on where the initial script is running
+    Built to get the path of a file based on where the initial script is being run from.
     
     Args:
         - name(str) : name of the file/folder
     '''
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(current_dir, name)
+    return os.path.join(os.getcwd(), name)
 
 def create_directory(name):
     '''
-    Creates a directory based on the current scripts location. Relies on
+    Creates a directory based on the location from which the script is run. Relies on
     get_path()
     
     Args:
@@ -117,7 +116,7 @@ def create_directory(name):
     dir_name = get_path(name)
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-
+        
 def load_hubert(file_path="hubert_base.pt"):
     '''
     Args:
