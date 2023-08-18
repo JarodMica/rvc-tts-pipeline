@@ -252,41 +252,47 @@ def rvc_convert(model_path,
             file_index2="",
             index_rate=1,
             filter_radius=3,
-            resample_sr=0,
-            rms_mix_rate=1.0,
+            resample_sr=48000,
+            rms_mix_rate=0.5,
             protect=0.33
           ):  
     '''
-    Function to call for the rvc voice conversion.
+    Function to call for the rvc voice conversion.  All parameters are the same present in that of the webui
 
-    model_path (str) : path to the rvc voice model you're using
-    f0_up_key (int) : transpose of the audio file, changes pitch (positive makes voice higher pitch)
-    input_path (str) : path to audio file (use wav file)
-    output_dir (str) : path to output directory, defaults to parent directory in output folder
-    _is_half (str) : Determines half-precision
-    f0method (str) : picks which f0 method to use: dio, harvest, crepe, rmvpe (requires rmvpe.pt)
-    file_index (str) : path to file_index, defaults to None
-    file_index2 (str) : path to file_index2, defaults to None.  #honestly don't know what this is for
-    index_rate (int) : strength of the index file if provided
-    filter_radius (int) :
-    resample_sr (int) : quality at which to resample audio to, defaults to no resample
-    rmx_mix_rate (int) : 
-    protect (int) : 
+    Args: 
+        model_path (str) : path to the rvc voice model you're using
+        f0_up_key (int) : transpose of the audio file, changes pitch (positive makes voice higher pitch)
+        input_path (str) : path to audio file (use wav file)
+        output_dir (str) : path to output directory, defaults to parent directory in output folder
+        _is_half (str) : Determines half-precision
+        f0method (str) : picks which f0 method to use: dio, harvest, crepe, rmvpe (requires rmvpe.pt)
+        file_index (str) : path to file_index, defaults to None
+        file_index2 (str) : path to file_index2, defaults to None.  #honestly don't know what this is for
+        index_rate (int) : strength of the index file if provided
+        filter_radius (int) : if >=3: apply median filtering to the harvested pitch results. The value represents the filter radius and can reduce breathiness.
+        resample_sr (int) : quality at which to resample audio to, defaults to no resample
+        rmx_mix_rate (int) : adjust the volume envelope scaling. Closer to 0, the more it mimicks the volume of the original vocals. Can help mask noise and make volume sound more natural when set relatively low. Closer to 1 will be more of a consistently loud volume
+        protect (int) : protect voiceless consonants and breath sounds to prevent artifacts such as tearing in electronic music. Set to 0.5 to disable. Decrease the value to increase protection, but it may reduce indexing accuracy
+
+    Returns:
+        output_file_path (str) : file path and name of tshe output wav file
 
     '''
     global config, now_dir, hubert_model, tgt_sr, net_g, vc, cpt, device, is_half, version
     
     if torch.cuda.is_available():
         device = "cuda:0"
+    elif torch.backends.mps.is_available():
+        device = "mps:0"
     else:
-        print("Cuda not detected")
+        print("Cuda or MPS not detected")
 
     is_half = _is_half
 
     create_directory(output_dir_path)
     output_dir = get_path(output_dir_path)
     
-
+    # Left over from manual yaml usage, DELETE in the future 
     # settings = load_config()
 
     # f0_up_key = settings["transpose"]
@@ -323,6 +329,8 @@ def rvc_convert(model_path,
     wav_opt=vc_single(0,input_path,f0_up_key,None,f0method,file_index,file_index2,index_rate,filter_radius,resample_sr,rms_mix_rate,protect)
     wavfile.write(output_file_path, tgt_sr, wav_opt)
     print(f"\nFile finished writing to: {output_file_path}")
+
+    return output_file_path
 
 def main():
     # Need to comment out yaml setting for input audio
