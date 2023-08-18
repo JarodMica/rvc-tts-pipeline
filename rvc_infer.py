@@ -245,7 +245,7 @@ def load_config():
 def rvc_convert(model_path,
             f0_up_key=0,
             input_path=None, 
-            output_dir_path="output",
+            output_dir_path=None,
             _is_half="False",
             f0method="rmvpe",
             file_index="",
@@ -311,8 +311,14 @@ def rvc_convert(model_path,
     # protect = settings["protect"]
     # print(settings)
 
-    output_file_name = "out.wav"
-    output_file_path = os.path.join(output_dir,output_file_name)
+    if output_dir_path == None:
+        output_dir_path = "output"
+        output_file_name = "out.wav"
+        output_file_path = os.path.join(output_dir,output_file_name)
+    else:
+        # Mainly for Jarod's Vivy project, specify entire path + wav name
+        output_file_path = output_dir_path
+        pass
 
     if(is_half.lower() == 'true'):
         is_half = True
