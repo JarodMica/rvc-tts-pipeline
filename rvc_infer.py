@@ -263,7 +263,7 @@ def rvc_convert(model_path,
         model_path (str) : path to the rvc voice model you're using
         f0_up_key (int) : transpose of the audio file, changes pitch (positive makes voice higher pitch)
         input_path (str) : path to audio file (use wav file)
-        output_dir (str) : path to output directory, defaults to parent directory in output folder
+        output_dir_path (str) : path to output directory, defaults to parent directory in output folder
         _is_half (str) : Determines half-precision
         f0method (str) : picks which f0 method to use: dio, harvest, crepe, rmvpe (requires rmvpe.pt)
         file_index (str) : path to file_index, defaults to None
@@ -289,8 +289,6 @@ def rvc_convert(model_path,
 
     is_half = _is_half
 
-    create_directory(output_dir_path)
-    output_dir = get_path(output_dir_path)
     
     # Left over from manual yaml usage, DELETE in the future 
     # settings = load_config()
@@ -314,11 +312,15 @@ def rvc_convert(model_path,
     if output_dir_path == None:
         output_dir_path = "output"
         output_file_name = "out.wav"
+        output_dir = os.getcwd()
         output_file_path = os.path.join(output_dir,output_file_name)
     else:
         # Mainly for Jarod's Vivy project, specify entire path + wav name
         output_file_path = output_dir_path
         pass
+
+    create_directory(output_dir_path)
+    output_dir = get_path(output_dir_path)
 
     if(is_half.lower() == 'true'):
         is_half = True
