@@ -252,7 +252,7 @@ def rvc_convert(model_path,
             file_index2="",
             index_rate=1,
             filter_radius=3,
-            resample_sr=48000,
+            resample_sr=0,
             rms_mix_rate=0.5,
             protect=0.33
           ):  
