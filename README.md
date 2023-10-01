@@ -1,7 +1,7 @@
 # RVC-TTS-Pipeline
 Pipeline for TTS to RVC.  This seems to produce the best sounding TTS with the closest representation to the original speaker's voice that one may have trained on.  This works by passing in an audio file generated from some type of TTS (tortoise, vits, etc.) and then converting it using the trained weights from an RVC model.  
 
-To get this to work, pytorch must be installed first on the system to allow RVC to be installable.  If it's not, I was running into issues of having to uninstall and reinstall torch (though probably I should just adjust the requirements inside of rvc).
+To get this to work, pytorch must be installed first on the system.  As well, this differs from the main branch as well as you'll need to download the rvc folder found on the releases sectin of my rvc fork
 
 **It is still a work in progress, there will be bugs and issues.**
 
@@ -9,13 +9,7 @@ To get this to work, pytorch must be installed first on the system to allow RVC 
 
 1. Install pytorch first here: https://pytorch.org/get-started/locally/
 
-2. Then, to install rvc, run the following:
-
-```
-pip install -e git+https://github.com/JarodMica/rvc.git#egg=rvc
-```
-
-3. Lastly, you need to get the ```hubert_base.pt``` and ```rmvpe.pt``` files from rvc and put them into the parent directory of whatever project you're working on (or the SAME location of whereever you're running the scripts)
+2. Then, to get rvc, go to the following and place it in the parent directory of wherever you're running your script from: **Enter link to rvc release here**
 
 **If you want to install rvc-tts-pipeline as it's own package, run the following (recommended)**
 
