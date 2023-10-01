@@ -4,6 +4,7 @@
 /.venv
 
 *.wav
+*.whl
 
 hubert_base.pt
 rmvpe.pt
