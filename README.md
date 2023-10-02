@@ -14,7 +14,7 @@ To get this to work, pytorch must be installed first on the system.  As well, th
 **If you want to install rvc-tts-pipeline as it's own package, run the following (recommended)**
 
 ```
-pip install -e git+https://github.com/JarodMica/rvc-tts-pipeline.git#egg=rvc_tts_pipe
+pip install -e git+https://github.com/JarodMica/rvc-tts-pipeline.git@lightweight#egg=rvc_tts_pipe
 ```
 
 This will allow you to import ```rvc_infer``` so that you do not have to move this package around.
