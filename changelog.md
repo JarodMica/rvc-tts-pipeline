@@ -1,7 +1,11 @@
 # Changelogs
 
 # 10/1/2023
-I decided to introduce a lightweight branch that just uses the RVC modules itself instead of instantiating that stuff in rvc_infer.  
+I decided to introduce a lightweight branch that just uses the RVC modules itself instead of instantiating that stuff in rvc_infer.  Reduces the code overall and makes things clearer on what is happening.
+- NOTES:
+    - There is a master branch of tts_pipeline which is still using the rvc package installed as an editable package
+    - There is also a lightweight branch of tts_pipeline (which is this one) that will use a downloadable package instead of an installable package which contains all of the modules needed for rvc
+- Added a "verbose" option
 
 The purpose of the **lightweight branch** is to be able to use the rvc_infer as long as the rvc folder is located in the same location of the script being ran (preferabbly parent directory).  This cuts down on the amount of refactoring that I would need to do in order to make rvc an installable package (without having it in editabble mode), while maintaining the ability to easily update it in the future in case new functionality is added.  Maintaining an installable package would be too much for myself.
 - Deleted duplicate functions in the rvc_infer module

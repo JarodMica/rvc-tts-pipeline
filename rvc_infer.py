@@ -1,4 +1,6 @@
 import os,sys,pdb,torch
+import logging
+
 now_dir = os.getcwd()
 sys.path.append(now_dir)
 import sys
@@ -46,7 +48,8 @@ def rvc_convert(model_name,
             filter_radius=3,
             resample_sr=48000,
             rms_mix_rate=0.5,
-            protect=0.33
+            protect=0.33,
+            verbose=False
           ):  
     '''
     Function to call for the rvc voice conversion.  All parameters are the same present in that of the webui
@@ -71,6 +74,10 @@ def rvc_convert(model_name,
 
     '''
     global config, now_dir, hubert_model, tgt_sr, vc, device, is_half
+
+    if not verbose:
+        logging.getLogger('fairseq').setLevel(logging.ERROR)
+        logging.getLogger('rvc').setLevel(logging.ERROR)
     
     if torch.cuda.is_available():
         device = "cuda:0"
@@ -81,7 +88,10 @@ def rvc_convert(model_name,
 
     is_half = _is_half
 
-    file_index = os.path.join("rvc/assets/indexes", file_index)
+    if file_index == "":
+        pass
+    else:
+        file_index = os.path.join(os.getcwd(), file_index)
 
     if output_dir_path == None:
         output_dir_path = "output"
@@ -117,7 +127,7 @@ def rvc_convert(model_name,
     return output_file_path
 
 def main():
-    rvc_convert(f0_up_key=6, model_name="ado.pth", input_path="delilah.wav")
+    rvc_convert(f0_up_key=6, model_name="rvc_voices/azasu.pth", input_path="delilah.wav")
 
 if __name__ == "__main__":
     main()
