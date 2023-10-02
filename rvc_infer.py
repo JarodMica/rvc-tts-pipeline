@@ -8,6 +8,7 @@ import torch
 import numpy as np
 import yaml
 import pkg_resources
+import logging
 
 from multiprocessing import cpu_count
 from vc_infer_pipeline import VC
@@ -254,7 +255,8 @@ def rvc_convert(model_path,
             filter_radius=3,
             resample_sr=0,
             rms_mix_rate=0.5,
-            protect=0.33
+            protect=0.33,
+            verbose=False
           ):  
     '''
     Function to call for the rvc voice conversion.  All parameters are the same present in that of the webui
@@ -287,27 +289,11 @@ def rvc_convert(model_path,
     else:
         print("Cuda or MPS not detected")
 
+    if not verbose:
+        logging.getLogger('fairseq').setLevel(logging.ERROR)
+        logging.getLogger('rvc').setLevel(logging.ERROR)
+
     is_half = _is_half
-
-    
-    # Left over from manual yaml usage, DELETE in the future 
-    # settings = load_config()
-
-    # f0_up_key = settings["transpose"]
-    # input_path = settings["audio_file"]
-    # # output_dir = settings["output_dir"]
-    # model_path = get_path(settings["model_path"])
-    # device = settings["device"]
-    # is_half = settings["is_half"]
-    # f0method = settings["f0method"]
-    # file_index = settings["file_index"]
-    # file_index2 = settings["file_index2"]
-    # index_rate = settings["index_rate"]
-    # filter_radius = settings["filter_radius"]
-    # resample_sr = settings["resample_sr"]
-    # rms_mix_rate = settings["rms_mix_rate"]
-    # protect = settings["protect"]
-    # print(settings)
 
     if output_dir_path == None:
         output_dir_path = "output"

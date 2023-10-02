@@ -2,8 +2,11 @@
 /rvc
 /venv
 /.venv
+/rvc_voices
 
 *.wav
+*.whl
+*.7z
 
 hubert_base.pt
 rmvpe.pt
