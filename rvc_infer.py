@@ -36,7 +36,7 @@ def create_directory(name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
-def rvc_convert(model_name,
+def rvc_convert(model_path,
             f0_up_key=0,
             input_path=None, 
             output_dir_path=None,
@@ -118,7 +118,7 @@ def rvc_convert(model_name,
     hubert_model=None
 
     vc = VC(config)
-    vc.get_vc(model_name)
+    vc.get_vc(model_path)
     _, (tgt_sr, audio_opt) = vc.vc_single(0, input_path, f0_up_key, None, f0method, file_index, file_index2, index_rate, filter_radius, resample_sr, rms_mix_rate, protect)
     
     wavfile.write(output_file_path, tgt_sr, audio_opt)
@@ -127,7 +127,7 @@ def rvc_convert(model_name,
     return output_file_path
 
 def main():
-    rvc_convert(f0_up_key=6, model_name="rvc_voices/azasu.pth", input_path="delilah.wav")
+    rvc_convert(f0_up_key=6, model_path="rvc_voices/azasu.pth", input_path="delilah.wav")
 
 if __name__ == "__main__":
     main()
