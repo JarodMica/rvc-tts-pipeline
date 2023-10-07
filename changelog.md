@@ -1,5 +1,10 @@
 # Changelogs
 
+# 10/7/2023
+Needed to make an adjustment so that the lightweight branch could be installed as a package that is not reliant on edittable mode (for distribution purposes)
+- Put rvc_infer module into rvc_pip, so to call rvc_infer, it can be found (after installing the branch) by ```rvc_pipe.rvc_infer```
+    - This makes the package easier to move around 
+
 # 10/1/2023
 I decided to introduce a lightweight branch that just uses the RVC modules itself instead of instantiating that stuff in rvc_infer.  Reduces the code overall and makes things clearer on what is happening.
 - NOTES:

@@ -9,15 +9,15 @@ To get this to work, pytorch must be installed first on the system.  As well, th
 
 1. Install pytorch first here: https://pytorch.org/get-started/locally/
 
-2. Then, to get rvc, go to the following and place it in the parent directory of wherever you're running your script from: **Enter link to rvc release here**
+2. Then, to get rvc, go to the following HF link, extract rvc_lightweight, and then place the folder named ```rvc``` into the parent directory of wherever you're running your script from: https://huggingface.co/Jmica/rvc/blob/main/rvc_lightweight.7z
 
 **If you want to install rvc-tts-pipeline as it's own package, run the following (recommended)**
 
 ```
-pip install -e git+https://github.com/JarodMica/rvc-tts-pipeline.git@lightweight#egg=rvc_tts_pipe
+pip install git+https://github.com/JarodMica/rvc-tts-pipeline.git@lightweight#egg=rvc_tts_pipe
 ```
 
-This will allow you to import ```rvc_infer``` so that you do not have to move this package around.
+This will allow you to import ```rvc_pipe.rvc_infer``` so that you do not have to move this package around.
 
 ## Basic usage
 The only function that should be called is the ```rvc_convert``` function.  The only required parameters that are absolutely needed are:
@@ -29,7 +29,7 @@ The only function that should be called is the ```rvc_convert``` function.  The 
 Then, it can simply be called like the following:
 
 ```
-from rvc_infer import rvc_convert
+from rvc_pipe.rvc_infer import rvc_convert
 
 rvc_convert(model_path="your_model_path_here", input_path="your_audio_path_here")
 ```
@@ -37,7 +37,7 @@ rvc_convert(model_path="your_model_path_here", input_path="your_audio_path_here"
 The docstrings of rvc_convert details out other values you may want to play around with, probably the most important being pitch and f0method.
 
 ## Notes
-Currently, the github packages ONLY work if you install them in editable mode.  Why exactly, I am not too sure but may have to do with package structure etc. If a time comes to where "-e" is not suitable for my projects, I will look for a solution when that comes.
+The previous releases had this installed in "edittable" mode, but that is no longer necessary for the rvc-tts-pipeline as I've learned a few things since then.
 
 ## Acknowledgements
 Huge thanks to the RVC creators as none of this would be possible without them.  This takes and uses a lot of their code in order to make this possible.
