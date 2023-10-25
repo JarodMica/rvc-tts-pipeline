@@ -10,6 +10,7 @@ To get this to work, pytorch must be installed first on the system.  As well, th
 1. Install pytorch first here: https://pytorch.org/get-started/locally/
 
 2. Then, to get rvc, go to the following HF link, extract rvc_lightweight, and then place the folder named ```rvc``` into the parent directory of wherever you're running your script from: https://huggingface.co/Jmica/rvc/blob/main/rvc_lightweight.7z
+3. You'll then need to cd into the rvc and install ```pip install -r requirements.txt```
 
 **If you want to install rvc-tts-pipeline as it's own package, run the following (recommended)**
 
