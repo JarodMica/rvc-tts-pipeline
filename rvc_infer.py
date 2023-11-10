@@ -244,20 +244,21 @@ def load_config():
     return rvc_conf
 
 def rvc_convert(model_path,
-            f0_up_key=0,
-            input_path=None, 
-            output_dir_path=None,
-            _is_half="False",
-            f0method="rmvpe",
-            file_index="",
-            file_index2="",
-            index_rate=1,
-            filter_radius=3,
-            resample_sr=0,
-            rms_mix_rate=0.5,
-            protect=0.33,
-            verbose=False
-          ):  
+                f0_up_key=0,
+                input_path=None, 
+                output_dir_path=None,
+                output_file_name="out.wav",
+                _is_half="False",
+                f0method="rmvpe",
+                file_index="",
+                file_index2="",
+                index_rate=1,
+                filter_radius=3,
+                resample_sr=0,
+                rms_mix_rate=0.5,
+                protect=0.33,
+                verbose=False
+              ):  
     '''
     Function to call for the rvc voice conversion.  All parameters are the same present in that of the webui
 
@@ -266,6 +267,7 @@ def rvc_convert(model_path,
         f0_up_key (int) : transpose of the audio file, changes pitch (positive makes voice higher pitch)
         input_path (str) : path to audio file (use wav file)
         output_dir_path (str) : path to output directory, defaults to parent directory in output folder
+        output_file_name (str) : name of the output wav file
         _is_half (str) : Determines half-precision
         f0method (str) : picks which f0 method to use: dio, harvest, crepe, rmvpe (requires rmvpe.pt)
         file_index (str) : path to file_index, defaults to None
@@ -277,7 +279,7 @@ def rvc_convert(model_path,
         protect (int) : protect voiceless consonants and breath sounds to prevent artifacts such as tearing in electronic music. Set to 0.5 to disable. Decrease the value to increase protection, but it may reduce indexing accuracy
 
     Returns:
-        output_file_path (str) : file path and name of tshe output wav file
+        output_file_path (str) : file path and name of the output wav file
 
     '''
     global config, now_dir, hubert_model, tgt_sr, net_g, vc, cpt, device, is_half, version
@@ -297,13 +299,9 @@ def rvc_convert(model_path,
 
     if output_dir_path == None:
         output_dir_path = "output"
-        output_file_name = "out.wav"
-        output_dir = os.getcwd()
-        output_file_path = os.path.join(output_dir,output_dir_path, output_file_name)
+        output_file_path = os.path.join(os.getcwd(), output_dir_path, output_file_name)
     else:
-        # Mainly for Jarod's Vivy project, specify entire path + wav name
-        output_file_path = output_dir_path
-        pass
+        output_file_path = os.path.join(output_dir_path, output_file_name)
 
     create_directory(output_dir_path)
     output_dir = get_path(output_dir_path)
