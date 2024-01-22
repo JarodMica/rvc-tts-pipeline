@@ -9,7 +9,8 @@ To get this to work, pytorch must be installed first on the system.  As well, th
 
 1. Install pytorch first here: https://pytorch.org/get-started/locally/
 
-2. Then, to get rvc, go to the following HF link, extract rvc_lightweight, and then place the folder named ```rvc``` into the parent directory of wherever you're running your script from: https://huggingface.co/Jmica/rvc/blob/main/rvc_lightweight.7z
+2. Then, to get rvc, go to the following HF link, extract rvc_lightweight, and then place the folder named ```rvc``` (or rename it to rvc) into the root directory of your project: https://huggingface.co/Jmica/rvc/blob/main/rvc_lightweight.7z
+   - The reason is ```rvc-tts-pipeline``` is looking for an ```import rvc.infer ....``` so it'll need to be able to find this import for it to work.
 3. You'll then need to cd into the rvc and install ```pip install -r requirements.txt```
 4. Lastly, an additional requirement of RVC is fairseq which you'll need to do one of two things:
    - Download microsoft build tools for c++ 2019 and then do ```pip install fairseq```
