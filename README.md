@@ -13,7 +13,7 @@ To get this to work, pytorch must be installed first on the system.  As well, th
 3. You'll then need to cd into the rvc and install ```pip install -r requirements.txt```
 4. Lastly, an additional requirement of RVC is fairseq which you'll need to do one of two things:
    - Download microsoft build tools for c++ 2019 and then do ```pip install fairseq```
-   - OR use a prebuilt wheels file.  I have built one for python 3.10 here: https://huggingface.co/Jmica/rvc/blob/main/fairseq-0.12.2-cp310-cp310-win_amd64.whl
+   - OR use a prebuilt wheels file.  I have built one for python 3.10 here: https://huggingface.co/Jmica/rvc/blob/main/fairseq-0.12.2-cp310-cp310-win_amd64.whl and then one for 3.9 here: https://huggingface.co/Jmica/rvc/blob/main/fairseq-0.12.2-cp39-cp39-win_amd64.whl
 
 **If you want to install rvc-tts-pipeline as it's own package, run the following (recommended)**
 
