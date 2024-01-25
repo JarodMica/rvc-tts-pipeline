@@ -84,7 +84,8 @@ def rvc_convert(model_path,
     elif torch.backends.mps.is_available():
         device = "mps:0"
     else:
-        print("Cuda or MPS not detected")
+        print("Cuda or MPS not detected, defaulting to CPU")
+        device = "cpu"
 
     is_half = _is_half
 
